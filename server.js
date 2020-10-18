@@ -32,7 +32,8 @@ db.once("open", () => {
             pusher.trigger('messages', 'inserted',
             {
                 name: messageDetails.name,
-                message: messageDetails.message
+                message: messageDetails.message,
+                timestamp: messageDetails.timestamp,
             }
             );
         } else {
@@ -49,7 +50,7 @@ db.once("open", () => {
 app.use(express.json());
 
 // Security - allowing request from any endpoints
-app.use(cors())
+app.use(cors());
 
 // DB config
 const connection_url = 'mongodb+srv://admin:6LVEd8ouP8HLOYex@cluster0.ob4kh.gcp.mongodb.net/whatsappdb?retryWrites=true&w=majority'
@@ -59,7 +60,7 @@ mongoose.connect(connection_url, {
     useUnifiedTopology: true,
 })
 
-// ???
+
 
 
 // api routes
