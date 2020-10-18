@@ -23,8 +23,26 @@ db.once("open", () => {
     const changeStream = msgCollection.watch();
     changeStream.on('change', (change) => {
         console.log("Ca change", change);
-    })
+
+
+
+        if(change.operationType === 'insert') {
+            const messageDetails = change.fullDocument;
+            pusher.trigger('messages', 'inserted',
+            {
+                name: messageDetails.user,
+                message: messageDetails.message
+            }
+            );
+        } else {
+            console.log('Error triggering Pusher')
+        };
+    });
 });
+
+
+
+
 
 // middleware
 app.use(express.json());
