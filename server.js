@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from 'mongoose';
 import Messages from "./dbMessages.js";
 import Pusher from 'pusher';
+import cors from 'cors'
 
 // app configuration + pour prendre en compte le format es6 - ajouter "type": "module" dans package.json et lancer la commande node --experimental-modules server.js - nom du fichier et pas NPM start
 const app = express ()
@@ -46,6 +47,9 @@ db.once("open", () => {
 
 // middleware
 app.use(express.json());
+
+// Security - allowing request from any endpoints
+app.use(cors())
 
 // DB config
 const connection_url = 'mongodb+srv://admin:6LVEd8ouP8HLOYex@cluster0.ob4kh.gcp.mongodb.net/whatsappdb?retryWrites=true&w=majority'
