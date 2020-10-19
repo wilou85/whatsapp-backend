@@ -6,14 +6,17 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "nodemon -r esm server.js"
   },
   "author": "William Tran",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
+    "esm": "^3.2.25",
     "express": "^4.17.1",
     "mongoose": "^5.10.9",
     "pusher": "^3.0.1"
   }
 }
+
+

@@ -2,8 +2,9 @@ import express from "express";
 import mongoose from 'mongoose';
 import Messages from "./dbMessages.js";
 import Pusher from 'pusher';
-import cors from 'cors'
 
+// dans les dépendances, installer npm i esm, puis dans package.json spécifier     "start": "nodemon -r esm server.js" pour que Nodemon puisse se rafraichir avec ES6 modules
+// https://blog.webdevsimplified.com/2019-09/es6-modules-in-nodejs/
 // app configuration + pour prendre en compte le format es6 - ajouter "type": "module" dans package.json et lancer la commande node --experimental-modules server.js - nom du fichier et pas NPM start
 const app = express ()
 const port = process.env.PORT || 9000
@@ -34,6 +35,7 @@ db.once("open", () => {
                 name: messageDetails.name,
                 message: messageDetails.message,
                 timestamp: messageDetails.timestamp,
+                received: messageDetails.received,
             }
             );
         } else {
@@ -50,7 +52,11 @@ db.once("open", () => {
 app.use(express.json());
 
 // Security - allowing request from any endpoints
-app.use(cors());
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Headers", "*");
+    next();
+});
 
 // DB config
 const connection_url = 'mongodb+srv://admin:6LVEd8ouP8HLOYex@cluster0.ob4kh.gcp.mongodb.net/whatsappdb?retryWrites=true&w=majority'
